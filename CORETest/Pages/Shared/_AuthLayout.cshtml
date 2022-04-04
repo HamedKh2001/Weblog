@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html >
+
+<head>
+    <meta charset="utf-8">
+    <title>@ViewData["Title"]</title>
+    <link href="~/AuthLayout/style.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="login">
+        @RenderBody()
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+    @await RenderSectionAsync("Scripts", false)
+
+<link href="~/AuthLayout/bootstrap.rtl.min.css" rel="stylesheet" />
+</body>
+
+</html>

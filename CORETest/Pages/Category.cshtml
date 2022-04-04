@@ -1,0 +1,65 @@
+﻿@page "{category}"
+@model CORETest.Pages.CategoryModel
+
+@{
+    @using CoreLayer.Utilities
+}
+
+<div class="main-container container pt-40" id="main-container">
+
+    <!-- Content -->
+    <div class="row">
+
+        <!-- Posts -->
+        <div class="col-lg-8 blog__content mb-72">
+            <section class="section">
+                @foreach (var item in Model.Catposts)
+                {
+                    <article class="entry card post-list">
+                        <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url(/images/posts/@item.Photo1)">
+                            <a href="/post/@item.Slug" class="thumb-url"></a>
+                            <img src="/images/posts/@item.Photo1" alt="" class="entry__img d-none">
+                            <a href="/post/@item.Slug" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--blue">@item.Category.Title</a>
+                        </div>
+
+                        <div class="entry__body post-list__body card__body">
+                            <div class="entry__header">
+                                <h2 class="entry__title">
+                                    <a href="/post/@item.Slug">@item.Title</a>
+                                </h2>
+                                <ul class="entry__meta">
+                                    <li class="entry__meta-author">
+                                        <span>نویسنده:</span>
+                                        <a href="#">@item.User.FullName</a>
+                                    </li>
+                                    <li class="entry__meta-date">
+                                        @item.CreationDate.ToShamsi()
+                                    </li>
+                                </ul>
+                            </div>
+                            @*<div class="entry__excerpt">
+                                <p></p>
+                            </div>*@
+                        </div>
+                    </article>
+                }
+            </section>
+            <br />
+            <!-- Pagination -->
+            @*<nav class="pagination">
+                    <span class="pagination__page pagination__page--current">۱</span>
+                    <a href="#" class="pagination__page">۲</a>
+                    <a href="#" class="pagination__page">۳</a>
+                    <a href="#" class="pagination__page">۴</a>
+                    <a href="#" class="pagination__page pagination__icon pagination__page--next"><i class="ui-arrow-left"></i></a>
+                </nav>*@
+        </div> <!-- end posts -->
+        <!-- Sidebar -->
+        <aside class="col-lg-4 sidebar sidebar--right">
+            <aside class="widget widget-popular-posts" id="PopularPosts">
+            </aside>
+            <aside class="widget widget_categories" id="Categories">
+            </aside>
+        </aside> <!-- end sidebar -->
+    </div> <!-- end content -->
+</div>

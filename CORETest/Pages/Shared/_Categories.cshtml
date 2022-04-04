@@ -1,0 +1,10 @@
+﻿@model IEnumerable<CoreLayer.DTOs.Categories.CategoryDTO>
+@{
+}
+<h4 class="widget-title">دسته بندی نوشته ها</h4>
+<ul>
+    @foreach (var item in Model)
+    {
+        <li><a href="/Category/@item.Title">@item.Title </a></li>
+    }
+</ul>

@@ -1,0 +1,62 @@
+﻿@model List<CoreLayer.DTOs.Categories.CategoryDTO>
+<header class="nav">
+    <div class="nav__holder nav--sticky">
+        <div class="container relative">
+            <div class="flex-parent">
+
+                <!-- Side Menu Button -->
+                <button class="nav-icon-toggle" id="nav-icon-toggle" aria-label="Open side menu">
+                    <span class="nav-icon-toggle__box">
+                        <span class="nav-icon-toggle__inner"></span>
+                    </span>
+                </button>
+
+                <!-- Logo -->
+                <a href="index.html" class="logo">
+                    <img class="logo__img" src="img/map_pin.png" alt="logo">
+                </a>
+
+                <!-- Nav-wrap -->
+                <nav class="flex-child nav__wrap d-none d-lg-block">
+                    <ul class="nav__menu">
+                        <li class="active">
+                            <a href="/">صفحه اصلی</a>
+                        </li>
+
+                        @foreach (var item in Model.Where(c => c.ParentID == null))
+                        {
+                            <li class=@(Model.Any(c => c.ParentID == item.Id)?"nav__dropdown":null)>
+                                <a href="/Category/@item.Title">@item.Title</a>
+                                <ul class="nav__dropdown-menu">
+                                    @foreach (var subitem in Model.Where(c => c.ParentID == item.Id))
+                                    {
+                                        <li><a href="/Category/@subitem.Title">@subitem.Title</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    </ul> <!-- end menu -->
+                </nav> <!-- end nav-wrap -->
+                <!-- Nav Right -->
+                <div class="nav__right">
+                    <!-- Search -->
+                    <div class="nav__right-item nav__search">
+                        <a href="#" class="nav__search-trigger" id="nav__search-trigger">
+                            <i class="ui-search nav__search-trigger-icon"></i>
+                        </a>
+                        <div class="nav__search-box" id="nav__search-box">
+                            <form action="/search" class="nav__search-form">
+                                <input type="text" name="q" placeholder="جستجو مقالات" class="nav__search-input">
+                                <button type="submit" class="search-button btn btn-lg btn-color btn-button">
+                                    <i class="ui-search nav__search-icon"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end nav right -->
+
+            </div> <!-- end flex-parent -->
+        </div> <!-- end container -->
+
+    </div>
+</header>

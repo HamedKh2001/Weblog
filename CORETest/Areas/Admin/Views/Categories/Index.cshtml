@@ -1,0 +1,89 @@
+﻿@model IEnumerable<CoreLayer.DTOs.Categories.CategoryDTO>
+@{
+    ViewData["title"] = "دسته بندی ها";
+    int Counter = 1;
+}
+
+<!-- Modal -->
+<div class="modal fade" id="MyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="modalbody">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="box">
+    <div class="box-header with-border">
+        <h2 class="box-title">Category</h2>
+    </div>
+    &nbsp;&nbsp;<a href="/Admin/Categories/Create" class="btn btn-success" style="margin-top:8px">افـزودن گـروه جـدیـد</a>
+    <div class="box-body">
+
+        <table class="table table-bordered table-striped dataTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>گـروه</th>
+                    <th>زیر گـروه</th>
+                    <th>عـمـلـیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(r => r.ParentID == null))
+                {
+                    <tr>
+                        <td>@Counter</td>
+                        <td>@item.Title</td>
+                        <td>
+                            <ul>
+                                @if (Model.Any(a => a.ParentID == item.Id))
+                                {
+                                    @foreach (var itm in Model.Where(m => m.ParentID == item.Id))
+                                    {
+                                        <li>
+                                            @itm.Title
+                                            <a href="/Admin/Categories/Edit/@itm.Id" class="btn btn-warning">ویـرایـش</a>&nbsp;
+                                            <a href="/Admin/Categories/Delete/@itm.Id" class="btn btn-danger">حــذف</a>
+
+                                            <br />
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="/Admin/Categories/Create/@item.Id" class="btn btn-success">افـزودن</a> &nbsp;
+                            <a href="/Admin/Categories/Edit/@item.Id" class="btn btn-warning">ویـرایـش</a> &nbsp;
+                            <a @*href="/Admin/Categories/Delete/@item.Id"*@ class="btn btn-danger" id="Delbtn" onclick="deleteGroup(@item.Id)">حــذف</a>
+                           
+                        </td>
+                    </tr>
+                    Counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    function deleteGroup(id) {
+        $.ajax({
+            type: "get",
+            url: "/Admin/Categories/Delete/" + id
+        }).done(function (res) {
+            $("#MyModal").modal();
+            $("#modalbody").html(res);
+        });
+    }
+    //function deleteGroup(id) {
+    //    $.get("/Admin/Categories/Delete/" + id, function (result) {
+    //        $("#MyModal").modal();
+    //        $("#modalbody").html(result);
+    //    });
+    //}
+</script>

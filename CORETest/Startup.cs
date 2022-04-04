@@ -1,0 +1,89 @@
+using CoreLayer.Services.Categories;
+using CoreLayer.Services.FileManager;
+using CoreLayer.Services.PostComments;
+using CoreLayer.Services.Users;
+using DataLayer.Context;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+  
+namespace CORETest
+{
+	public class Startup
+	{
+		public Startup(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
+
+		public IConfiguration Configuration { get; }
+
+		// This method gets called by the runtime. Use this method to add services to the container.
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddRazorPages()
+				.AddRazorRuntimeCompilation() ;
+			services.AddControllersWithViews(); 
+			services.AddScoped<IUserServices, UserServices>();
+			services.AddScoped<ICategoryservices, Categoryservices>();
+			services.AddScoped<IFileManager, FileManager>();
+			services.AddScoped<IPostservices, Postservices>();
+			services.AddScoped<IPostCommentservices, PostCommentservices>();
+
+			services.AddDbContext<BlogContext>(option =>
+			{
+				option.UseSqlServer(Configuration.GetConnectionString("Default"));
+			});
+			services.AddAuthentication(option=>
+				{
+					option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+					option.DefaultSignInScheme= CookieAuthenticationDefaults.AuthenticationScheme;
+					option.DefaultChallengeScheme= CookieAuthenticationDefaults.AuthenticationScheme;
+				}).AddCookie(option=>
+				{
+					option.LoginPath="/Auth/Login";
+					option.LogoutPath = "/Auth/Logout";
+					option.ExpireTimeSpan = TimeSpan.FromDays(30);
+				});
+		}
+		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		{
+			if (env.IsDevelopment())
+			{
+				app.UseDeveloperExceptionPage();
+			}
+			else
+			{
+				app.UseExceptionHandler("/Error");
+				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+				app.UseHsts();
+			}
+
+			app.UseHttpsRedirection();
+			app.UseStaticFiles();
+			
+			app.UseRouting();
+			app.UseAuthentication();
+			app.UseAuthorization();
+
+			app.UseEndpoints(endpoints =>
+			{
+				endpoints.MapControllerRoute(
+					name: "Default",
+					pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+					);
+				endpoints.MapRazorPages();
+
+			});
+		}
+	}
+}

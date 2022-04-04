@@ -1,0 +1,231 @@
+﻿@page "{handler?}"
+@model IndexModel
+@using CoreLayer.Utilities
+@{
+    ViewData["Title"] = "Home page";
+    var lgpost = @Model.first4Posts[0];
+}
+
+
+    <div class="container">
+        <div class="trending-now">
+            <span class="trending-now__label">
+                <i class="ui-flash"></i>
+                خبرهای داغ
+            </span>
+            <div class="newsticker">
+                <ul class="newsticker__list">
+                    @foreach (var item in Model.BreakingPosts)
+                    {
+                        <li class="newsticker__item"><a href="/post/@item.Slug" class="newsticker__item-url">@item.Title </a></li>
+                    }
+                </ul>
+            </div>
+            <div class="newsticker-buttons">
+                <button class="newsticker-button newsticker-button--next" id="newsticker-button--next" aria-label="previous article"><i class="ui-arrow-left"></i></button>
+                <button class="newsticker-button newsticker-button--prev" id="newsticker-button--prev" aria-label="next article"><i class="ui-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Posts Grid -->
+    <section class="featured-posts-grid">
+        <div class="container">
+            <div class="row row-8">
+                <!-- Small post -->
+                <div class="col-lg-6">
+                    @for (int i = 1; i < 4; i++)
+                    {
+                        var item = @Model.first4Posts[i];
+                        <div class="featured-posts-grid__item featured-posts-grid__item--sm">
+                            <article class="entry card post-list featured-posts-grid__entry">
+                                <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url(/images/posts/@item.Photo1)">
+                                    <a href="/post/@item.Slug" class="thumb-url"></a>
+                                    <img src="/images/posts/@item.Photo1" alt="" class="entry__img d-none">
+                                    <a href="/Category/@item.Category.Title" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--violet">@item.Category.Title</a>
+                                </div>
+
+                                <div class="entry__body post-list__body card__body">
+                                    <h2 class="entry__title">
+                                        <a href="/post/@item.Slug">@item.Title</a>
+                                    </h2>
+                                    <ul class="entry__meta">
+                                        <li class="entry__meta-author">
+                                            <span>نویسنده:</span>
+                                            <a href="#">@item.User.FullName</a>
+                                        </li>
+                                        <li class="entry__meta-date">
+                                            @item.CreationDate.ToShamsi()
+                                        </li>
+                                    </ul>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                    <!-- end post -->
+                </div> <!-- end col -->
+
+                <div class="col-lg-6">
+
+                    <!-- Large post -->
+                    <div class="featured-posts-grid__item featured-posts-grid__item--lg">
+                        <article class="entry card featured-posts-grid__entry">
+                            <div class="entry__img-holder card__img-holder">
+                                <a href="/post/@lgpost.Slug">
+                                    <img src="/images/posts/@lgpost.Photo1" alt="" class="entry__img">
+                                </a>
+                                <a href="/post/@lgpost.Slug" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--green">@lgpost.Category.Title</a>
+                            </div>
+
+                            <div class="entry__body card__body">
+                                <h2 class="entry__title">
+                                    <a href="/post/@lgpost.Slug">@lgpost.Title</a>
+                                </h2>
+                                <ul class="entry__meta">
+                                    <li class="entry__meta-author">
+                                        <span>نویسنده:</span>
+                                        <a href="#">@lgpost.User.FullName</a>
+                                    </li>
+                                    <li class="entry__meta-date">
+                                        @lgpost.CreationDate.ToShamsi()
+                                    </li>
+                                </ul>
+                            </div>
+                        </article>
+                    </div> <!-- end large post -->
+                </div>
+
+            </div>
+        </div>
+    </section> <!-- end featured posts grid -->
+
+    <div class="main-container container pt-24" id="main-container">
+        <!-- end carousel posts -->
+        <section class="section related-posts mt-40 mb-0">
+            <div class="title-wrap title-wrap--line">
+                <h3 class="section-title">آخرین مطـالـب</h3>
+            </div>
+
+            <div id="owl-posts-3-items" class="owl-carousel owl-theme owl-carousel--arrows-outside owl-rtl owl-loaded owl-drag">
+
+                @foreach (var item in Model.LatestPosts)
+                {
+                    <article class="entry thumb thumb--size-1">
+                        <div class="entry__img-holder thumb__img-holder" style="background-image: url('/images/posts/@item.Photo1');">
+                            <div class="bottom-gradient"></div>
+                            <div class="thumb-text-holder">
+                                <h2 class="thumb-entry-title">
+                                    <a href="/post/@item.Slug">@item.Title</a>
+                                </h2>
+                            </div>
+                            <a href="/post/@item.Slug" class="thumb-url"></a>
+                        </div>
+                    </article>
+                }
+            </div>
+        </section>
+        <!-- end carousel posts -->
+        <!-- Posts from categories -->
+
+        <div class="row">
+            <!-- Posts -->
+            <div class="col-lg-8 blog__content mb-72" id="searchbody">
+
+                <!-- Worldwide News -->
+                <section class="section">
+                    <div class="title-wrap title-wrap--line">
+                        <h3 class="section-title">اخبار </h3>
+                    </div>
+                    
+                    @foreach (var item in Model.AllPosts)
+                    {
+                        <article class="entry card post-list">
+                            <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url(/images/posts/@item.Photo1)">
+                                <a href="/post/@item.Slug" class="thumb-url"></a>
+                                <img src="/images/posts/@item.Photo1" alt="" class="entry__img d-none">
+                                <a href="/Category/@item.Category.Title" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--blue">@item.Category.Title</a>
+                            </div>
+
+                            <div class="entry__body post-list__body card__body">
+                                <div class="entry__header">
+                                    <h2 class="entry__title">
+                                        <a href="/post/@item.Slug">@item.Title</a>
+                                    </h2>
+                                    <ul class="entry__meta">
+                                        <li class="entry__meta-author">
+                                            <span>نویسنده:</span>
+                                            <a href="#">@item.User.FullName</a>
+                                        </li>
+                                        <li class="entry__meta-date">
+                                            @item.CreationDate.ToShamsi()
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="entry__excerpt">
+                                    <p> @item.Title</p>
+                                </div>
+                            </div>
+                        </article>
+                    }
+
+
+                </section> <!-- end worldwide news -->
+                <!-- Pagination -->
+                @*<nav class="pagination">
+                    <span class="pagination__page pagination__page--current">۱</span>
+                    <a href="#" class="pagination__page">۲</a>
+                    <a href="#" class="pagination__page">۳</a>
+                    <a href="#" class="pagination__page">۴</a>
+                    <a href="#" class="pagination__page pagination__icon pagination__page--next"><i class="ui-arrow-left"></i></a>
+                </nav>*@
+
+            </div> <!-- end posts -->
+            <!-- Sidebar 1 -->
+
+            <aside class="col-lg-4 sidebar sidebar--1 sidebar--right">
+
+                <aside class="widget widget-popular-posts" id="PopularPosts">
+                </aside>
+
+                <!-- Widget Categories -->
+                <aside class="widget widget_categories" id="Categories">
+                </aside> <!-- end widget categories -->
+                <!-- Widget Recommended (Rating) -->
+                <aside class="widget widget-rating-posts">
+                    <h4 class="widget-title">منتخب سردبیر</h4>
+                    @foreach (var item in Model.ElitePosts)
+                    {
+                        <article class="entry">
+                            <div class="entry__img-holder">
+                                <a href="single-post.html">
+                                    <div class="thumb-container thumb-60">
+                                        <img data-src="/images/posts/@item.Photo1" src="/images/posts/@item.Photo1" class="entry__img lazyload" alt="">
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="entry__body">
+                                <div class="entry__header">
+
+                                    <h2 class="entry__title">
+                                        <a href="/post/@item.Slug">@item.Title</a>
+                                    </h2>
+                                    <ul class="entry__meta">
+                                        <li class="entry__meta-author">
+                                            <span>نویسنده:</span>
+                                            <a href="#">@item.User.FullName</a>
+                                        </li>
+                                        <li class="entry__meta-date">
+                                            @item.CreationDate.ToShamsi()
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                </aside> <!-- end widget recommended (rating) -->
+            </aside> <!-- end sidebar 1 -->
+        </div> <!-- content secondary -->
+
+
+    </div>

@@ -1,0 +1,49 @@
+﻿@model CoreLayer.DTOs.Categories.CategoryDTO
+
+
+<br />
+    <div class="alert alert-danger" role="alert">
+        <h2>از حــذف (@ViewData["Title"])  مطمئن هستید؟</h2>
+    </div>
+
+    <section class="invoice">
+        <!-- title row -->
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="page-header">
+                    <i class="fa fa-trash"></i> @ViewData["Title"]
+                </h2>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- info row -->
+        <form role="form" method="post" asp-area="Admin" asp-controller="Categories" asp-action="Delete">
+            <div class="box-body">
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" type="text" aria-label="Disabled input example" disabled readonly>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Slug"></label>
+                    <input asp-for="Slug" class="form-control" type="text" aria-label="Disabled input example" disabled readonly>
+
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="MetaTag"></label>
+                    <input asp-for="MetaTag" class="form-control" type="text"  aria-label="Disabled input example" disabled readonly>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="MetaDescription"></label>
+                    <input asp-for="MetaDescription" class="form-control" type="text" aria-label="Disabled input example" disabled readonly>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-danger btn-lg " style="min-width:150px">حــذف</button>
+            </div>
+        </form>
+    </section>

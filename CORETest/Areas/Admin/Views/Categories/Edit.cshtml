@@ -1,0 +1,54 @@
+﻿@model CORETest.Areas.Admin.Models.EditCategoryViewModel
+@{
+   
+}
+
+<section class="content-header">
+    <h1>
+        ویرایش @ViewData["title"]
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="../Categories"><i class="fa fa-dashboard"></i> لیست کتگوری ها</a></li>
+        
+    </ol>
+</section>
+<br />
+<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">مثال ساده</h3>
+        </div>
+        <form role="form" method="post" asp-area="Admin" asp-controller="Categories" asp-action="Edit">
+            <div class="box-body">
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Title"></label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Slug"></label>
+                    <input asp-for="Slug" class="form-control" />
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="MetaTag"></label>
+                    <input asp-for="MetaTag" class="form-control" />
+                    <span asp-validation-for="MetaTag" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label asp-for="MetaDescription"></label>
+                    <input asp-for="MetaDescription" class="form-control" />
+                    <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary btn-lg" style="min-width:150px">ثــبــت</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@page
+@model CORETest.Pages.Auth.LoginModel
+@{
+    Layout = "Shared/_AuthLayout";
+}
+
+<h1>ورود بـه حـساب</h1>
+<form method="post">
+    <input type="text" asp-for="UserName" placeholder="نام کاربری" required="required" />
+    <span asp-validation-for="UserName" style="color: red"></span>
+    <br /><br />
+    <input type="password" asp-for="Password" placeholder="رمز عبور" required="required" />
+    <span asp-validation-for="Password" style="color: red"></span>
+    <br /><br />
+    <button type="submit" class="btn btn-primary btn-block btn-large">ثـبـت</button>
+    <a asp-page="Register">ثـبـت نـام</a>
+</form>

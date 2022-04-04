@@ -1,0 +1,100 @@
+﻿@model CORETest.Areas.Admin.Models.EditPostViewModel
+@{
+    @using CoreLayer.Services.Categories;
+    @inject ICategoryservices _Categoryservice;
+    var category = _Categoryservice.GetAllCategories();
+}
+<section>
+    <div class="row-10">
+        <div class="box box-primary ">
+            <div class="box-header with-border">
+                <h3 class="box-title">پست جدید</h3>
+            </div>
+
+            <form method="post" asp-area="Admin" asp-controller="Posts" asp-action="Edit" enctype="multipart/form-data">
+                <div class="box-body col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" for="exampleInputEmail1"></label>
+                        <input asp-for="Title" class="form-control" placeholder="">
+                    </div>
+                    <div class="form-group ">
+                        <div class="form-group col-md-4">
+                            <label asp-for="Photo1" for="exampleInputFile"></label>
+                            <div id="wrapper" style="margin-top: 20px;">
+                                <input asp-for="Photo1" type="file" id="Photo1" name="Photo1" />
+                                <img class="thumbnail" src="~/images/posts/@ViewData["PIC1"]" />
+                                <div id="image-holder1" style="max-width:100%"></div>
+                            </div>
+                        </div>
+                        @*<div class="form-group col-md-4">
+                            <label asp-for="Photo2" for="exampleInputFile"></label>
+                            <div id="wrapper" style="margin-top: 20px;">
+                                <input asp-for="Photo2" type="file" id="Photo2" name="Photo2" />
+                                <div id="image-holder2"></div>
+                            </div>
+                        </div>*@
+                    </div>
+                    <br />
+                </div>
+
+                <div class="box-body col-md-6">
+                    <div class="form-group ">
+                        <label asp-for="Slug" for="exampleInputEmail1"></label>
+                        <input asp-for="Slug" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="box-body col-md-6">
+                    <div class="col-md-6">
+                        <label asp-for="CategoryId" for="exampleInputEmail1"></label>
+                        <select asp-for="CategoryId" class="form-control">
+                            <option>انتخاب کنید</option>
+                            @foreach (var item in category.Where(c => c.ParentID == null))
+                            {
+                                <option value="@item.Id">@item.Title</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="SubCategoryId" for="exampleInputEmail1"></label>
+                        <select asp-for="SubCategoryId" class="form-control">
+                            <option value="0">انتـخـاب کـنـیـد</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="box-body col-md-12">
+                    <div class="form-group ">
+                        <label asp-for="Description"></label>
+                        <textarea asp-for="Description" id="Ckeditor" class="form-control" rows="3" style="min-width:100% "></textarea>
+                    </div>
+                </div>
+
+                <br />
+                <div class="box-footer ">
+                    <button type="submit" class="btn btn-primary btn-lg" style="width:100%">ثـبـت</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<script src="~/js/jquery.min.js"></script>
+<script>
+    $("#CategoryId").change(function () {
+        var categoryid = $(this).val();
+        $.ajax({
+            type: "Get",
+            url: "/admin/categories/GetChildCatefories?parentID=" + categoryid
+        }).done(function (response) {
+            $("#SubCategoryId").html(`<option >انتخاب کنید</option>`);
+            for (var i in response) {
+                var category = response[i];
+                $("#SubCategoryId").append(`<option value='${category.id}'>${category.title}</option>`);
+            }
+        });
+    });
+</script>
+

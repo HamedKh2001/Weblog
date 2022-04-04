@@ -1,0 +1,45 @@
+﻿@page
+@model CORETest.Pages.searchModel
+@{
+    @using CoreLayer.Utilities
+}
+
+<div class="main-container container pt-40" id="main-container">
+
+    <!-- Content -->
+    <div class="row">
+
+        <!-- Posts -->
+        <div class="col-lg-8 blog__content mb-72" >
+            <section class="section">
+               <div id="ajaxsearch">
+                   <partial name="_searchview" model="Model.posts"/>
+               </div>
+            </section>
+        </div> <!-- end posts -->
+        <!-- Sidebar -->
+        <aside class="col-lg-4 sidebar sidebar--right">
+            <aside class="widget widget-popular-posts" id="PopularPosts">
+            </aside>
+            <aside class="widget widget_categories" id="Categories">
+            </aside>
+        </aside> <!-- end sidebar -->
+    </div> <!-- end content -->
+</div>
+<script>
+
+    function changePage(pageId) {
+        var url = new URL(window.location.href);
+        var search_params = url.searchParams;
+
+        // Change PageId
+        search_params.set('pageId', pageId);
+        url.search = search_params.toString();
+
+        // the new url string
+        var new_url = url.toString();
+
+        window.location.replace(new_url);
+    }
+
+</script>
